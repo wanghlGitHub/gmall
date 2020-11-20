@@ -1,20 +1,20 @@
-server:
-  port: 7000
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/gmall-sms
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-  application:
-    name: guli-coupon
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml
-  global-config:
-    db-config:
-      id-type: auto
-
+#server:
+#  port: 7000
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://localhost:3306/gmall-sms
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#  application:
+#    name: guli-coupon
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml
+#  global-config:
+#    db-config:
+#      id-type: auto
+#
