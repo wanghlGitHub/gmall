@@ -1,19 +1,16 @@
 package com.atguigu.gmall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.atguigu.gmall.coupon.entity.CouponEntity;
-import com.atguigu.gmall.coupon.service.CouponService;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
+import com.atguigu.gmall.coupon.entity.CouponEntity;
+import com.atguigu.gmall.coupon.service.CouponService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -24,11 +21,21 @@ import com.atguigu.common.utils.R;
  * @email 568227120@qq.com
  * @date 2020-11-20 12:43:49
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
+    @Value("${coupon.user.name}")
+    private String userName;
+	@Value("${coupon.user.age}")
+    private Integer age;
+
+	@GetMapping("/test")
+	public R test() {
+		return R.ok().put("userName",userName).put("age",age);
+	}
 
     /**
      * 列表
