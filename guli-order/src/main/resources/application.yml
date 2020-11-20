@@ -1,9 +1,17 @@
+server:
+  port: 9000
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/gmall-oms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  application:
+    name: guli-order
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

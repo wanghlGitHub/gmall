@@ -1,14 +1,19 @@
-#\u914D\u7F6E\u6570\u636E\u6E90
+server:
+  port: 10000
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/gmall-pms
-
-#mybatis-plus \u8BBE\u7F6E
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  application:
+    name: guli-product
 mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml #\u626B\u63CF mapper \u7684\u8DEF\u5F84
+  mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
-      id-type: auto #\u8BBE\u7F6E ID \u4E3A\u4E3B\u952E\u81EA\u589E
+      id-type: auto
