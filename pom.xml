@@ -17,6 +17,7 @@
         <module>guli-product</module>
         <module>guli-ware</module>
         <module>guli-common</module>
+        <module>guli-gateway</module>
 
 
         <module>renren-fast</module>
