@@ -48,7 +48,7 @@ public class CategoryController {
 	public R info(@PathVariable("catId") Long catId) {
 		CategoryEntity category = categoryService.getById(catId);
 
-		return R.ok().put("category", category);
+		return R.ok().put("data", category);
 	}
 
 	/**
@@ -68,6 +68,20 @@ public class CategoryController {
 	public R update(@RequestBody CategoryEntity category) {
 		categoryService.updateById(category);
 
+		return R.ok();
+	}
+
+	/**
+	 * 批量修改
+	 *
+	 * @param category
+	 * @author: <a href="568227120@qq.com">heliang.wang</a>
+	 * @date: 2020/11/23 12:50 下午
+	 * @return: com.atguigu.common.utils.R
+	 */
+	@RequestMapping("/update/sort")
+	public R updateSort(@RequestBody CategoryEntity[] category) {
+		categoryService.updateBatchById(Arrays.asList(category));
 		return R.ok();
 	}
 
