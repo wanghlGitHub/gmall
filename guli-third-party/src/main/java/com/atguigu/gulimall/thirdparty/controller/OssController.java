@@ -37,13 +37,11 @@ public class OssController {
 	public R policy() {
 
 
-		//https://gulimall-hello.oss-cn-beijing.aliyuncs.com/hahaha.jpg
-
-		String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
-		// callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
-//        String callbackUrl = "http://88.88.88.88:8888";
+		// host的格式为 bucketname.endpoint
+		String host = "https://" + bucket + "." + endpoint;
 		String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String dir = format + "/"; // 用户上传文件时指定的前缀。
+		// 用户上传文件时指定的前缀。
+		String dir = format + "/";
 
 		Map<String, String> respMap = null;
 		try {
@@ -59,7 +57,7 @@ public class OssController {
 			String encodedPolicy = BinaryUtil.toBase64String(binaryData);
 			String postSignature = ossClient.calculatePostSignature(postPolicy);
 
-			respMap = new LinkedHashMap<String, String>();
+			respMap = new LinkedHashMap<>();
 			respMap.put("accessid", accessId);
 			respMap.put("policy", encodedPolicy);
 			respMap.put("signature", postSignature);
