@@ -11,7 +11,7 @@
     <groupId>com.atguigu.gmall</groupId>
     <artifactId>guli-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>guli-gateway</name>
+    <name>gulimall-gateway</name>
     <description>谷粒商城-网关服务</description>
 
     <properties>

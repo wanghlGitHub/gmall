@@ -19,9 +19,7 @@
         <module>guli-common</module>
         <module>guli-gateway</module>
         <module>guli-third-party</module>
-
-
-        <module>renren-fast</module>
+        <module>guli-admin</module>
         <module>renren-generator</module>
     </modules>
 

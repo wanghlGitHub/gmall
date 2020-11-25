@@ -4,20 +4,27 @@ import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.Query;
 import com.atguigu.gmall.product.dao.CategoryDao;
 import com.atguigu.gmall.product.entity.CategoryEntity;
+import com.atguigu.gmall.product.service.CategoryBrandRelationService;
 import com.atguigu.gmall.product.service.CategoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
+/**
+ * @author heliang.wang
+ */
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+	@Autowired
+	CategoryBrandRelationService categoryBrandRelationService;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -50,6 +57,34 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 		return true;
 	}
 
+	@Override
+	public Long[] findCatelogPath(Long catelogId) {
+		List<Long> paths = new ArrayList<>();
+		List<Long> parentPath = findParentPath(catelogId, paths);
+		Collections.reverse(parentPath);
+
+		return parentPath.toArray(new Long[parentPath.size()]);
+	}
+
+	/**
+	 * 递归查找当前所有的父级路径
+	 *
+	 * @param catelogId
+	 * @param paths
+	 * @author: <a href="568227120@qq.com">heliang.wang</a>
+	 * @date: 2020/11/25 3:07 下午
+	 * @return: java.util.List<java.lang.Long>
+	 */
+	private List<Long> findParentPath(Long catelogId, List<Long> paths) {
+		//1、收集当前节点id
+		paths.add(catelogId);
+		CategoryEntity categoryEntity = this.getById(catelogId);
+		if (categoryEntity.getParentCid() != 0) {
+			findParentPath(categoryEntity.getParentCid(), paths);
+		}
+		return paths;
+	}
+
 	/**
 	 * 递归查找所有菜单的子菜单
 	 *
@@ -68,5 +103,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 		}).sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort()))).collect(Collectors.toList());
 
 		return children;
+	}
+
+	/**
+	 * 级联更新所有关联的数据
+	 *
+	 * @param category
+	 * @author: <a href="568227120@qq.com">heliang.wang</a>
+	 * @date: 2020/11/25 3:35 下午
+	 * @return: void
+	 */
+	@Transactional
+	@Override
+	public void updateCascade(CategoryEntity category) {
+		this.updateById(category);
+		categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
 	}
 }
