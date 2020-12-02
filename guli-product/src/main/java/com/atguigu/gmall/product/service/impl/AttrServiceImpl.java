@@ -233,8 +233,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 		List<Long> attrIds = groupId.stream().map(item -> item.getAttrId()).collect(Collectors.toList());
 
 		//2.3)、从当前分类的所有属性中移除这些属性；
-//		QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
-		QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId);
+		QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
 		if (attrIds != null && attrIds.size() > 0) {
 			wrapper.notIn("attr_id", attrIds);
 		}

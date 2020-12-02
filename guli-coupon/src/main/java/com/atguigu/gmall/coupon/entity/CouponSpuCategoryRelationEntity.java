@@ -2,14 +2,13 @@ package com.atguigu.gmall.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 优惠券分类关联
- * 
+ *
  * @author heliang.wang
  * @email 568227120@qq.com
  * @date 2020-11-20 12:43:49
