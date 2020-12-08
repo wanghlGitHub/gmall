@@ -1,9 +1,9 @@
 package com.atguigu.gmall.product.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.gmall.product.entity.CategoryEntity;
-import org.springframework.transaction.annotation.Transactional;
+import com.atguigu.gmall.product.vo.Catelog2Vo;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,18 @@ public interface CategoryService extends IService<CategoryEntity> {
 	 */
 	Long[] findCatelogPath(Long catelogId);
 
-	@Transactional
 	void updateCascade(CategoryEntity category);
+
+	List<CategoryEntity> getLevel1Categorys();
+
+	/**
+	 * 查询 2 级分类及子分类的 json 数据
+	 *
+	 * @param
+	 * @author: <a href="568227120@qq.com">heliang.wang</a>
+	 * @date: 2020/12/8 9:24 上午
+	 * @return: java.util.Map<java.lang.String, java.util.List < com.atguigu.gmall.product.vo.Catelog2Vo>>
+	 */
+	Map<String, List<Catelog2Vo>> getCatalogJson();
 }
 

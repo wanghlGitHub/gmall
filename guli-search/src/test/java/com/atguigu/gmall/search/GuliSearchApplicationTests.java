@@ -1,7 +1,7 @@
 package com.atguigu.gmall.search;
 
 import com.alibaba.fastjson.JSON;
-import com.atguigu.gmall.search.config.ElasticSearchConfig;
+import com.atguigu.gmall.search.config.GuliElasticSearchConfig;
 import lombok.Data;
 import lombok.ToString;
 import org.elasticsearch.action.index.IndexRequest;
@@ -145,7 +145,7 @@ public class GuliSearchApplicationTests {
 	}
 
 	/**
-	 * 测试ES数据
+	 * 测试 ES 数据 保存
 	 * 更新也可以
 	 */
 	@Test
@@ -163,7 +163,7 @@ public class GuliSearchApplicationTests {
 		indexRequest.source(jsonString, XContentType.JSON);  //要保存的内容
 
 		//执行操作
-		IndexResponse index = restHighLevelClient.index(indexRequest, ElasticSearchConfig.COMMON_OPTIONS);
+		IndexResponse index = restHighLevelClient.index(indexRequest, GuliElasticSearchConfig.COMMON_OPTIONS);
 
 		//提取有用的响应数据
 		System.out.println(index);
