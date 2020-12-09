@@ -76,6 +76,9 @@ public class IndexController {
 	}
 
 
+	/*************************************  分布式锁 测试接口  *************************************/
+
+
 	@ResponseBody
 	@GetMapping(value = "/hello")
 	public String hello() {
@@ -229,4 +232,5 @@ public class IndexController {
 		return id + "班的人都走了...";
 	}
 
+	/*************************************  分布式锁 测试接口  *************************************/
 }
