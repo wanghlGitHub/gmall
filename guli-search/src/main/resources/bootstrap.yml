@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: guli-search
+
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: f8e8368f-819c-4cad-89c3-3a82ea481461
+
+
