@@ -17,6 +17,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -133,16 +134,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 	/**
 	 * 级联更新所有关联的数据
 	 *
+	 * @CacheEvict:失效模式
+	 * @CachePut:双写模式，需要有返回值
+	 * 1、同时进行多种缓存操作：@Caching 组合操作
+	 * 2、指定删除某个分区下的所有数据 @CacheEvict(value = "category",allEntries = true)
+	 * 3、存储同一类型的数据，都可以指定为同一分区
 	 * @param category
-	 * @author: <a href="568227120@qq.com">heliang.wang</a>
-	 * @date: 2020/11/25 3:35 下午
-	 * @return: void
 	 */
-	@Transactional
+	// @Caching(evict = {
+	//         @CacheEvict(value = "category",key = "'getLevel1Categorys'"),
+	//         @CacheEvict(value = "category",key = "'getCatalogJson'")
+	// })
+	@CacheEvict(value = "category",allEntries = true)       //allEntries 删除某个分区下的所有数据
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void updateCascade(CategoryEntity category) {
-		this.updateById(category);
-		categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+
+		RReadWriteLock readWriteLock = redissonClient.getReadWriteLock("catalogJson-lock");
+		//创建写锁
+		RLock rLock = readWriteLock.writeLock();
+
+		try {
+			rLock.lock();
+			this.baseMapper.updateById(category);
+			categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			rLock.unlock();
+		}
+
+		//同时修改缓存中的数据
+		//删除缓存,等待下一次主动查询进行更新
 	}
 
 	/**

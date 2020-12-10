@@ -21,6 +21,11 @@ spring:
     port: 6379
   cache:
     type: redis #使用 redis 做缓存配置
+    redis:
+      cache-null-values: true #是否缓存空值，防止缓存穿透
+      time-to-live: 3600000 #缓存的过期时间，单位为毫秒
+      use-key-prefix: true #是否使用缓存前缀，如果使用，则@Cacheable 中配置的 value 不生效
+#      key-prefix: CACHE_ #缓存前缀,如果配置了统一前缀，所有的前缀都一样，不配置，使用注解上配置的分块前缀
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
