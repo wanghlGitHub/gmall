@@ -460,7 +460,7 @@
 
                     <div class="box-lh-one">
                         <ul>
-                            <li th:each="img : ${item.images}"><img th:src="${img.imgUrl}"/></li>
+                            <li th:each="img : ${item.images}" th:if="${!#strings.isEmpty(img.imgUrl)}"><img th:src="${img.imgUrl}"/></li>
                         </ul>
                     </div>
                     <div id="left">
