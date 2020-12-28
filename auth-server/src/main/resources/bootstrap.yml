@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: auth-server
+
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 490355a7-0917-405c-adc5-40d2e25c7935
+
+
