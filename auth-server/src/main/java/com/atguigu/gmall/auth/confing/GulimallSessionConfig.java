@@ -1,4 +1,4 @@
-package com.atguigu.gmall.search.config;
+package com.atguigu.gmall.auth.confing;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +15,13 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * @Version: 1.0
  */
 @Configuration
-public class GuliSessionConfig {
+public class GulimallSessionConfig {
 
+	/**
+	 * 自定义 cookies 作用域
+	 *
+	 * @return
+	 */
 	@Bean
 	public CookieSerializer cookieSerializer() {
 
@@ -30,9 +35,13 @@ public class GuliSessionConfig {
 	}
 
 
+	/**
+	 * 配置 session 存储到 redis 的格式 --> json
+	 *
+	 * @return
+	 */
 	@Bean
 	public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
 		return new GenericJackson2JsonRedisSerializer();
 	}
-
 }

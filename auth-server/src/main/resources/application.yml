@@ -22,17 +22,16 @@ spring:
     host: localhost
     port: 6379
 
+  session:
+    store-type: redis # 整合 spring-session 指定 session 存放到 redis 中
+
+  thymeleaf:
+    cache: false #开发模式，关闭缓存
+
 #开启feign对sentinel的支持
 feign:
   sentinel:
     enabled: true
-
-
-  thymeleaf:
-    cache: false
-
-  session:
-    store-type: redis
 
 #暴露所有端点
 management:
@@ -40,6 +39,4 @@ management:
     web:
       exposure:
         include: '*'
-
-
 

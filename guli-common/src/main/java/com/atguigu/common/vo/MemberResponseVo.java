@@ -1,6 +1,7 @@
 package com.atguigu.common.vo;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @Date: 2020/12/28 11:24 上午
  * @Version: 1.0
  */
+@ToString
 @Data
 public class MemberResponseVo implements Serializable {
 

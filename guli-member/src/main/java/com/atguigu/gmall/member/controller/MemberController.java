@@ -10,6 +10,7 @@ import com.atguigu.gmall.member.feign.CouponFeign;
 import com.atguigu.gmall.member.service.MemberService;
 import com.atguigu.gmall.member.vo.MemberUserLoginVo;
 import com.atguigu.gmall.member.vo.MemberUserRegisterVo;
+import com.atguigu.gmall.member.vo.SocialUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,7 +114,27 @@ public class MemberController {
 		if (memberEntity != null) {
 			return R.ok().setData(memberEntity);
 		} else {
-			return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(),BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMsg());
+			return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(), BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMsg());
+		}
+	}
+
+	/**
+	 * 社交登录
+	 *
+	 * @param socialUser
+	 * @author: <a href="568227120@qq.com">heliang.wang</a>
+	 * @date: 2020/12/28 4:57 下午
+	 * @return: com.atguigu.common.utils.R
+	 */
+	@PostMapping(value = "/oauth2/login")
+	public R oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
+
+		MemberEntity memberEntity = memberService.login(socialUser);
+
+		if (memberEntity != null) {
+			return R.ok().setData(memberEntity);
+		} else {
+			return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(), BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMsg());
 		}
 	}
 

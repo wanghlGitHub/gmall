@@ -6,19 +6,25 @@ spring:
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/gmall-pms
+
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
+
   application:
     name: guli-product
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+
   thymeleaf:
     cache: false #生产模式下开启缓存
+
   redis:
     host: localhost
     port: 6379
+
   cache:
     type: redis #使用 redis 做缓存配置
     redis:
@@ -26,11 +32,16 @@ spring:
       time-to-live: 3600000 #缓存的过期时间，单位为毫秒
       use-key-prefix: true #是否使用缓存前缀，如果使用，则@Cacheable 中配置的 value 不生效
 #      key-prefix: CACHE_ #缓存前缀,如果配置了统一前缀，所有的前缀都一样，不配置，使用注解上配置的分块前缀
+
+  session:
+    store-type: redis #整合 spring-session 后，指定 session 存储到 redis
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+
 logging:
   level:
     com.atguigu.gmall.product: debug

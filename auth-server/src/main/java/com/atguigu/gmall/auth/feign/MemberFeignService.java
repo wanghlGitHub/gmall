@@ -1,6 +1,7 @@
 package com.atguigu.gmall.auth.feign;
 
 import com.atguigu.common.utils.R;
+import com.atguigu.gmall.auth.vo.SocialUser;
 import com.atguigu.gmall.auth.vo.UserLoginVo;
 import com.atguigu.gmall.auth.vo.UserRegisterVo;
 import org.springframework.cloud.openfeign.FeignClient;
