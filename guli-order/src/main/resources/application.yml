@@ -12,6 +12,26 @@ spring:
         server-addr: localhost:8848
   application:
     name: guli-order
+  # RabbitMQ配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: / #配置虚拟主机
+    publisher-confirms: true #开启 mq 消息发送 broker 确认，确保消息可靠投递
+    publisher-returns: true #开启 mq 消息 queue 队列确认，确保 exchange 发送到 queue 队列可靠投递
+    template:
+      mandatory: true #消息从 exchange 到 queue 队列失败后，会优先回调通知
+    listener:
+      simple:
+        acknowledge-mode: manual # 手动ack消息，不使用默认的消费端确认，确保消费端一定可以收到消息
+  thymeleaf:
+    cache: false
+  session:
+    store-type: redis
+  redis:
+    host: localhost
+    port: 6379
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

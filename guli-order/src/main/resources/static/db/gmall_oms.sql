@@ -14,6 +14,8 @@ drop table if exists oms_payment_info;
 
 drop table if exists oms_refund_info;
 
+drop table if exists undo_log;
+
 /*==============================================================*/
 /* Table: oms_order                                             */
 /*==============================================================*/
@@ -21,7 +23,7 @@ create table oms_order
 (
     id                   bigint not null auto_increment comment 'id',
     member_id            bigint comment 'member_id',
-    order_sn             char(32) comment '订单号',
+    order_sn             varchar(64) comment '订单号',
     coupon_id            bigint comment '使用的优惠券',
     create_time          datetime comment 'create_time',
     member_username      varchar(200) comment '用户名',
@@ -73,7 +75,7 @@ create table oms_order_item
 (
     id                   bigint not null auto_increment comment 'id',
     order_id             bigint comment 'order_id',
-    order_sn             char(32) comment 'order_sn',
+    order_sn             varchar(64) comment 'order_sn',
     spu_id               bigint comment 'spu_id',
     spu_name             varchar(255) comment 'spu_name',
     spu_pic              varchar(500) comment 'spu_pic',
@@ -120,7 +122,7 @@ create table oms_order_return_apply
     id                   bigint not null auto_increment comment 'id',
     order_id             bigint comment 'order_id',
     sku_id               bigint comment '退货商品id',
-    order_sn             char(32) comment '订单编号',
+    order_sn             varchar(64) comment '订单编号',
     create_time          datetime comment '申请时间',
     member_username      varchar(64) comment '会员用户名',
     return_amount        decimal(18,4) comment '退款金额',
@@ -188,7 +190,7 @@ alter table oms_order_setting comment '订单配置信息';
 create table oms_payment_info
 (
     id                   bigint not null auto_increment comment 'id',
-    order_sn             char(32) comment '订单号（对外业务号）',
+    order_sn             varchar(64) comment '订单号（对外业务号）',
     order_id             bigint comment '订单id',
     alipay_trade_no      varchar(50) comment '支付宝交易流水号',
     total_amount         decimal(18,4) comment '支付总金额',
@@ -219,3 +221,26 @@ create table oms_refund_info
 );
 
 alter table oms_refund_info comment '退款信息';
+
+
+/*==============================================================*/
+/* Table: undo_log                                        */
+/*==============================================================*/
+CREATE TABLE `undo_log`
+(
+    `id`            bigint(20)   NOT NULL AUTO_INCREMENT,
+    `branch_id`     bigint(20)   NOT NULL,
+    `xid`           varchar(100) NOT NULL,
+    `context`       varchar(128) NOT NULL,
+    `rollback_info` longblob     NOT NULL,
+    `log_status`    int(11)      NOT NULL,
+    `log_created`   datetime     NOT NULL,
+    `log_modified`  datetime     NOT NULL,
+    `ext`           varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
+alter table undo_log comment '分布式事务 Seata 回滚表';

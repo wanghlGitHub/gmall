@@ -10,6 +10,8 @@ drop table if exists wms_ware_order_task_detail;
 
 drop table if exists wms_ware_sku;
 
+drop table if exists undo_log;
+
 /*==============================================================*/
 /* Table: wms_purchase                                          */
 /*==============================================================*/
@@ -93,6 +95,8 @@ create table wms_ware_order_task_detail
     sku_name             varchar(255) comment 'sku_name',
     sku_num              int comment '购买个数',
     task_id              bigint comment '工作单id',
+    ware_id              bigint(20) DEFAULT NULL COMMENT '仓库id',
+    lock_status          smallint(1) DEFAULT NULL COMMENT '1-已锁定  2-已解锁  3-扣减',
     primary key (id)
 );
 
@@ -113,3 +117,25 @@ create table wms_ware_sku
 );
 
 alter table wms_ware_sku comment '商品库存';
+
+/*==============================================================*/
+/* Table: undo_log                                        */
+/*==============================================================*/
+CREATE TABLE `undo_log`
+(
+    `id`            bigint(20)   NOT NULL AUTO_INCREMENT,
+    `branch_id`     bigint(20)   NOT NULL,
+    `xid`           varchar(100) NOT NULL,
+    `context`       varchar(128) NOT NULL,
+    `rollback_info` longblob     NOT NULL,
+    `log_status`    int(11)      NOT NULL,
+    `log_created`   datetime     NOT NULL,
+    `log_modified`  datetime     NOT NULL,
+    `ext`           varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
+alter table undo_log comment '分布式事务 Seata 回滚表';

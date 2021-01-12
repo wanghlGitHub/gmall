@@ -28,6 +28,8 @@ drop table if exists pms_spu_info;
 
 drop table if exists pms_spu_info_desc;
 
+drop table if exists undo_log;
+
 /*==============================================================*/
 /* Table: pms_attr                                              */
 /*==============================================================*/
@@ -283,3 +285,25 @@ create table pms_spu_info_desc
 );
 
 alter table pms_spu_info_desc comment 'spu信息介绍';
+
+/*==============================================================*/
+/* Table: undo_log                                        */
+/*==============================================================*/
+CREATE TABLE `undo_log`
+(
+    `id`            bigint(20)   NOT NULL AUTO_INCREMENT,
+    `branch_id`     bigint(20)   NOT NULL,
+    `xid`           varchar(100) NOT NULL,
+    `context`       varchar(128) NOT NULL,
+    `rollback_info` longblob     NOT NULL,
+    `log_status`    int(11)      NOT NULL,
+    `log_created`   datetime     NOT NULL,
+    `log_modified`  datetime     NOT NULL,
+    `ext`           varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
+alter table undo_log comment '分布式事务 Seata 回滚表';

@@ -43,9 +43,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 	SkuImagesService skuImagesService;
 	@Autowired
 	SkuSaleAttrValueService skuSaleAttrValueService;
-
 	@Autowired
 	CouponFeignService couponFeignService;
+	@Autowired
+	private BrandService brandService;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -219,6 +220,24 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 		);
 
 		return new PageUtils(page);
+	}
+
+	@Override
+	public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+		//先查询sku表里的数据
+		SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
+
+		//获得spuId
+		Long spuId = skuInfoEntity.getSpuId();
+
+		//再通过spuId查询spuInfo信息表里的数据
+		SpuInfoEntity spuInfoEntity = this.baseMapper.selectById(spuId);
+
+		//查询品牌表的数据获取品牌名
+		BrandEntity brandEntity = brandService.getById(spuInfoEntity.getBrandId());
+		spuInfoEntity.setBrandName(brandEntity.getName());
+
+		return spuInfoEntity;
 	}
 
 }
