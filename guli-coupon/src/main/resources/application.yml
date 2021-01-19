@@ -1,20 +1,40 @@
-#server:
-#  port: 7000
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
-#    username: root
-#    password: root
-#    url: jdbc:mysql://localhost:3306/gmall-sms
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: localhost:8848
-#  application:
-#    name: guli-coupon
-#mybatis-plus:
-#  mapper-locations: classpath:/mapper/**/*.xml
-#  global-config:
-#    db-config:
-#      id-type: auto
-#
+server:
+  port: 7000
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/gmall-sms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8179
+  application:
+    name: guli-coupon
+  #服务追踪
+  zipkin:
+    base-url: http://localhost:9411/
+    discovery-client-enabled: false  #关闭服务发现
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1  #配置采样器
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+feign:
+  sentinel:
+    enabled: true

@@ -1,6 +1,15 @@
 server:
   port: 88
 spring:
+  #服务追踪
+  zipkin:
+    base-url: http://localhost:9411/
+    discovery-client-enabled: false  #关闭服务发现
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1  #配置采样器
   cloud:
     nacos:
       discovery:
@@ -56,7 +65,7 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
-        - id: gulimall_host_route
+        - id: gulimall_product_route
           uri: lb://guli-product
           predicates:
             - Host=gulimall.com,item.gulimall.com
@@ -75,3 +84,28 @@ spring:
           uri: lb://guli-cart
           predicates:
             - Host=cart.gulimall.com
+
+        - id: gulimall_order_route
+          uri: lb://gulimall-order
+          predicates:
+            - Host=order.gulimall.com
+
+        - id: gulimall_member_route
+          uri: lb://gulimall-member
+          predicates:
+            - Host=member.gulimall.com
+
+        - id: gulimall_seckill_route
+          uri: lb://gulimall-seckill
+          predicates:
+            - Host=seckill.gulimall.com
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8179
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *

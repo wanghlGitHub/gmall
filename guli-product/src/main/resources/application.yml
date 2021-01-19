@@ -11,6 +11,10 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8179
 
   application:
     name: guli-product
@@ -36,6 +40,16 @@ spring:
   session:
     store-type: redis #整合 spring-session 后，指定 session 存储到 redis
 
+  #服务追踪
+  zipkin:
+    base-url: http://localhost:9411/
+    discovery-client-enabled: false  #关闭服务发现
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1  #配置采样器
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -45,3 +59,18 @@ mybatis-plus:
 logging:
   level:
     com.atguigu.gmall.product: debug
+    org:
+      springframework:
+        cloud:
+          sleuth: debug
+          openfeign: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+# 开启 feign 对 sentinel 的支持，sentinel 的降级熔断
+feign:
+  sentinel:
+    enabled: true
+

@@ -1,4 +1,4 @@
-package com.atguigu.gmall.auth.confing;
+package com.atguigu.gmall.cart.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * @Version: 1.0
  */
 @Configuration
-public class GulimallSessionConfig {
+public class GmallSessionConfig {
 
 	/**
 	 * 自定义 cookies 作用域

@@ -23,6 +23,7 @@
         <module>guli-admin</module>
         <module>auth-server</module>
         <module>guli-cart</module>
+        <module>guli-seckill</module>
         <module>renren-generator</module>
     </modules>
 

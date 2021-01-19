@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyRedissonConfig {
 
-	@Value("${spring.redis.url}")
+	@Value("${spring.redis.host}")
 	private String redisUrl;
 	@Value("${spring.redis.port}")
 	private String redisPort;

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Version: 1.0
  */
 @Configuration
-public class GulimallWebConfig implements WebMvcConfigurer {
+public class GmallWebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
